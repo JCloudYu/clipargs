@@ -1,5 +1,5 @@
 {
-	"name": "@jcloudyu/cmdargs",
+	"name": "clipargs",
 	"version": "1.0.0",
 	"description": "A tiny command line parser with no external dependencies",
 	"main": "./_dist/index.js",
