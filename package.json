@@ -1,0 +1,21 @@
+{
+	"name": "@jcloudyu/cmdargs",
+	"version": "1.0.0",
+	"description": "A tiny command line parser with no external dependencies",
+	"main": "./_dist/index.js",
+	"scripts": {
+		"test": "node ./_dist/test/test.js",
+		"prebuild": "rm -rf ./_dist",
+		"build": "tsc"
+	},
+	"keywords": [
+		"CLI",
+		"CMD",
+		"Args"
+	],
+	"author": "JCloudYu",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/node": "^17.0.8"
+	}
+}
