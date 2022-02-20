@@ -1,6 +1,6 @@
 "use strict";
 const AliasFormat = /(^[-]{1,2}[^-]+$)/u;
-const OptionFormat = /^(-[^-=]+)$|^((--[^-=])(=.*)?)$/u;
+const OptionFormat = /^(-[^-=]+)$|^((--[^-=]+)(=.*)?)$/u;
 const _Captures = new WeakMap();
 class CliPArgs {
     constructor() {
