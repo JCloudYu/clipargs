@@ -7,6 +7,7 @@ interface CaptureConf {
 
 
 const AliasFormat = /(^[-]{1,2}[^-]+$)/u;
+const OptionFormat = /^(-[^-=]+)$|^((--[^-=])(=.*)?)$/u;
 const _Captures:WeakMap<CliPArgs, {
 	alias_map:{[alias:string]:string},
 	var_map:{[name:string]:CaptureConf}
@@ -95,34 +96,47 @@ class CliPArgs {
 		const _args = args.slice(0).reverse();
 		while(_args.length > 0) {
 			const arg = _args.pop()!.trim();
-			const name = alias_map[arg];
-			if ( name === undefined ) {
+			const matches = arg.match(OptionFormat);
+
+			// Not an option
+			if ( !matches ) {
 				return_value._.push(arg);
 				continue;
 			}
 
-			const {is_var, is_array} = capture_map[name];
+
+			const [,short,, long, long_val] = matches;
+			const alias = short||long;
+
+
+			const var_name = alias_map[alias];
+			if ( var_name === undefined ) {
+				return_value._.push(arg);
+				continue;
+			}
+
+			const {is_var, is_array} = capture_map[var_name];
 			if ( !is_var ) {
-				return_value[name] = true;
+				return_value[var_name] = true;
 				continue;
 			}
 
 
 
-			const value = _args.pop()?.trim()||null;
+			const value = short ? (_args.pop()?.trim()||null) : (long_val ? long_val.substring(1) : null);
 			if ( value === null ) continue;
 
 
-			const registered_value = return_value[name];
+			const registered_value = return_value[var_name];
 			if ( registered_value === undefined ) {
-				return_value[name] = is_array ? [value] : value;
+				return_value[var_name] = is_array ? [value] : value;
 			}
 			else 
 			if ( Array.isArray(registered_value) ) {
 				registered_value.push(value);
 			}
 			else {
-				return_value[name] = value;
+				return_value[var_name] = value;
 			}
 		}
 

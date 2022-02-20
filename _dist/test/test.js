@@ -8,4 +8,5 @@ console.log(index_js_1.default
     .flag('cool', '--cool', '-c', '-col')
     .variable('var_a', '---A', '--A', '-a', 'A')
     .array('var_b', '--B', '-b', '-bb', '-b', '-c')
+    .array('var_d', '--D', '-dd')
     .parse(process.argv.slice(2)));
