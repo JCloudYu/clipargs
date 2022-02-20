@@ -3,11 +3,11 @@ type HybridParsedArgs = {_:string[];} & { [key:string|number|symbol]:string[]|st
 
 
 export = class {
-	static parse(args:string[]):ParsedArgs;
-	static parse(args:string[], overwrite_mode:false):ParsedArgs;
-	static parse(args:string[], overwrite_mode:true):HybridParsedArgs;
-	static parse(args:string[], overwrite_mode:boolean=true):ParsedArgs|HybridParsedArgs {
-		const return_value:ParsedArgs|HybridParsedArgs = { _:[] };
+	static parse<ParsedType extends object = any>(args:string[]):ParsedArgs&ParsedType;
+	static parse<ParsedType extends object = any>(args:string[], overwrite_mode:false):ParsedArgs&ParsedType;
+	static parse<ParsedType extends object = any>(args:string[], overwrite_mode:true):HybridParsedArgs&ParsedType;
+	static parse<ParsedType extends object = any>(args:string[], overwrite_mode=false):(ParsedArgs&ParsedType)|(HybridParsedArgs&ParsedType) {
+		const return_value:any = { _:[] };
 		const _args = args.slice(0).reverse();
 		while(_args.length > 0) {
 			const arg = _args.pop()!.trim();
@@ -45,7 +45,7 @@ export = class {
 				if ( next_val !== null ) {
 					return_value._.push(next_val);
 				}
-				
+
 				continue;
 			}
 

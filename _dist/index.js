@@ -1,6 +1,6 @@
 "use strict";
 module.exports = class {
-    static parse(args, overwrite_mode = true) {
+    static parse(args, overwrite_mode = false) {
         const return_value = { _: [] };
         const _args = args.slice(0).reverse();
         while (_args.length > 0) {
