@@ -4,5 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_js_1 = __importDefault(require("../index.js"));
-console.log(JSON.stringify(index_js_1.default.parse(process.argv.slice(2)), null, "    "));
-console.log(JSON.stringify(index_js_1.default.parse(process.argv.slice(2), false), null, "    "));
+console.log(index_js_1.default
+    .flag('cool', '--cool', '-c', '-col')
+    .variable('var_a', '---A', '--A', '-a', 'A')
+    .array('var_b', '--B', '-b', '-bb', '-b', '-c')
+    .parse(process.argv.slice(2)));

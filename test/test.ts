@@ -1,6 +1,9 @@
 import CMDArgs from "../index.js";
 
-
-
-console.log(JSON.stringify(CMDArgs.parse<{a:string}>(process.argv.slice(2)), null, "    "));
-console.log(JSON.stringify(CMDArgs.parse(process.argv.slice(2), false), null, "    "));
+console.log(
+	CMDArgs
+	.flag('cool', '--cool', '-c', '-col')
+	.variable('var_a', '---A', '--A', '-a', 'A')
+	.array('var_b', '--B', '-b', '-bb', '-b', '-c')
+	.parse<{cool:boolean, var_a:string, var_b:string[]}>(process.argv.slice(2))
+);
