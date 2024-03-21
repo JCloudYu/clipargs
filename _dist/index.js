@@ -8,54 +8,26 @@ class CliPArgs {
     constructor() {
         _Captures.set(this, { alias_map: {}, var_map: {} });
     }
-    variable(name, ...aliases) {
-        const { var_map } = _Captures.get(this);
-        name = name.trim();
-        if (name === '_') {
-            throw new RangeError("Option \`_\` is a reserved word!");
-        }
-        if (!var_map[name]) {
-            var_map[name] = { is_var: true, is_array: false, aliases: [] };
-        }
-        if (!var_map[name].is_var) {
-            throw new SyntaxError(`Option \"${name}\" has been declared as flag already!`);
-        }
-        RegisterAlias.call(this, name, aliases);
-        return this;
+    string(name, ...aliases) {
+        return RegisterVaraible.call(this, name, 'string', aliases);
     }
-    array(name, ...aliases) {
-        this.variable(name, ...aliases);
+    stringArray(name, ...aliases) {
+        RegisterVaraible.call(this, name, 'string', aliases);
         _Captures.get(this).var_map[name].is_array = true;
         return this;
     }
-    flag(name, ...aliases) {
-        const { var_map: capture_map } = _Captures.get(this);
-        name = name.trim();
-        if (name === '_') {
-            throw new RangeError("Option \`_\` is a reserved word!");
-        }
-        if (!capture_map[name]) {
-            capture_map[name] = { is_var: false, is_array: false, aliases: [] };
-        }
-        if (capture_map[name].is_var) {
-            throw new SyntaxError(`Option \"${name}\" has been declared as variable already!`);
-        }
-        RegisterAlias.call(this, name, aliases);
+    number(name, ...aliases) {
+        return RegisterVaraible.call(this, name, 'number', aliases);
+    }
+    numberArray(name, ...aliases) {
+        RegisterVaraible.call(this, name, 'number', aliases);
+        _Captures.get(this).var_map[name].is_array = true;
         return this;
     }
-    clear(name) {
-        name = name.trim();
-        if (name !== "_") {
-            const { var_map, alias_map } = _Captures.get(this);
-            const { aliases } = var_map[name];
-            delete var_map[name];
-            for (const alias of aliases) {
-                delete alias_map[alias];
-            }
-        }
-        return this;
+    bool(name, ...aliases) {
+        return RegisterVaraible.call(this, name, 'boolean', aliases);
     }
-    reset() {
+    clear() {
         _Captures.set(this, { alias_map: {}, var_map: {} });
         return this;
     }
@@ -79,27 +51,46 @@ class CliPArgs {
                 return_value._.push(arg);
                 continue;
             }
-            const { is_var, is_array } = capture_map[var_name];
-            if (!is_var) {
+            const { type, is_array } = capture_map[var_name];
+            if (type === "boolean") {
                 return_value[var_name] = true;
                 continue;
             }
-            const value = short ? (((_a = _args.pop()) === null || _a === void 0 ? void 0 : _a.trim()) || null) : (long_val ? long_val.substring(1) : null);
+            let value = short ? (((_a = _args.pop()) === null || _a === void 0 ? void 0 : _a.trim()) || null) : (long_val ? long_val.substring(1) : null);
             if (value === null)
                 continue;
+            if (type === "number")
+                value = Number(value);
             const registered_value = return_value[var_name];
             if (registered_value === undefined) {
                 return_value[var_name] = is_array ? [value] : value;
             }
-            else if (Array.isArray(registered_value)) {
-                registered_value.push(value);
-            }
             else {
-                return_value[var_name] = value;
+                if (Array.isArray(registered_value)) {
+                    registered_value.push(value);
+                }
+                else {
+                    return_value[var_name] = value;
+                }
             }
         }
         return return_value;
     }
+}
+function RegisterVaraible(name, type, aliases) {
+    const { var_map } = _Captures.get(this);
+    name = name.trim();
+    if (name === '_') {
+        throw new RangeError("Option \`_\` is a reserved word!");
+    }
+    if (!var_map[name]) {
+        var_map[name] = { type, is_array: false, aliases: [] };
+    }
+    if (var_map[name].type !== type) {
+        throw new SyntaxError(`Option \"${name}\" has been declared as ${var_map[name].type} already!`);
+    }
+    RegisterAlias.call(this, name, aliases);
+    return this;
 }
 function RegisterAlias(name, aliases) {
     const { var_map: capture_map, alias_map } = _Captures.get(this);

@@ -5,8 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_js_1 = __importDefault(require("../index.js"));
 console.log(index_js_1.default
-    .flag('cool', '--cool', '-c', '-col')
-    .variable('var_a', '---A', '--A', '-a', 'A')
-    .array('var_b', '--B', '-b', '-bb', '-b', '-c')
-    .array('var_d', '--D', '-dd')
+    .bool('cool', '--cool', '-C')
+    .string('var_str', '---str', '--str', '-S', 'A')
+    .number('var_num', '---num', '--num', '-N', 'A')
+    .stringArray('var_str_ary', '--sary', '-SA')
+    .numberArray('var_num_ary', '--nary', '-NA')
     .parse(process.argv.slice(2)));

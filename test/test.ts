@@ -2,9 +2,10 @@ import CMDArgs from "../index.js";
 
 console.log(
 	CMDArgs
-	.flag('cool', '--cool', '-c', '-col')
-	.variable('var_a', '---A', '--A', '-a', 'A')
-	.array('var_b', '--B', '-b', '-bb', '-b', '-c')
-	.array('var_d', '--D', '-dd')
-	.parse<{cool:boolean, var_a:string, var_b:string[]}>(process.argv.slice(2))
+	.bool('cool', '--cool', '-C')
+	.string('var_str', '---str', '--str', '-S', 'A')
+	.number('var_num', '---num', '--num', '-N', 'A')
+	.stringArray('var_str_ary', '--sary', '-SA')
+	.numberArray('var_num_ary', '--nary', '-NA')
+	.parse<{cool:boolean, var_str:string, var_num:number; var_str_ary:string[]; var_num_ary:number[]}>(process.argv.slice(2))
 );

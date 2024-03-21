@@ -1,6 +1,6 @@
 {
 	"name": "clipargs",
-	"version": "2.2.0",
+	"version": "3.0.0",
 	"description": "A tiny command line parser with no external dependencies",
 	"main": "./_dist/index.js",
 	"scripts": {
