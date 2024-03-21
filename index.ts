@@ -9,12 +9,13 @@ interface CaptureConf {
 const AliasFormat = /(^[-]{1,2}[^-]+$)/u;
 const OptionFormat = /^(-[^-=]+)$|^((--[^-=]+)(=.*)?)$/u;
 const _Captures:WeakMap<CliPArgs, {
-	alias_map:{[alias:string]:string},
+	alias_map:Record<string, string>,
 	var_map:{[name:string]:CaptureConf}
 }> = new WeakMap();
 
-interface NamedArgs { [key:string|number|symbol]:string[]|string|boolean; }
-interface ParsedArgs extends NamedArgs { _:string[]; }
+interface UnnamedArgs {_:string[]};
+interface NamedArgs {[key:string]:string[]|string|boolean|undefined};
+
 class CliPArgs {
 	constructor() {
 		_Captures.set(this, {alias_map:{}, var_map:{}});
@@ -86,12 +87,9 @@ class CliPArgs {
 		_Captures.set(this, {alias_map:{}, var_map:{}});
 		return this;
 	}
-	parse<ReturnType extends NamedArgs = any>(args:string[]):ParsedArgs&ReturnType {
+	parse<ReturnType extends NamedArgs = {}>(args:string[]):ReturnType&UnnamedArgs {
 		const {var_map:capture_map, alias_map} = _Captures.get(this)!;
-		const return_value:ParsedArgs = { _:[] };
-
-
-
+		const return_value:any = { _:[] };
 
 		const _args = args.slice(0).reverse();
 		while(_args.length > 0) {
@@ -140,7 +138,7 @@ class CliPArgs {
 			}
 		}
 
-		return return_value as ParsedArgs&ReturnType;
+		return return_value;
 	}
 }
 
