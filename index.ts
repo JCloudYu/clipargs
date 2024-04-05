@@ -6,7 +6,7 @@ interface CaptureConf {
 
 
 
-const AliasFormat = /(^[-]{1,2}[^-]+$)/u;
+const AliasFormat = /^((-|--)([0-9a-zA-Z_-]+))$/u;
 const OptionFormat = /^(-[^-=]+)$|^((--[^-=]+)(=.*)?)$/u;
 const _Captures:WeakMap<CliPArgs, {
 	alias_map:Record<string, string>,
