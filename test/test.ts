@@ -3,6 +3,7 @@ import CMDArgs from "../index.js";
 console.log(
 	CMDArgs
 	.bool('cool', '--cool', '-C')
+	.string('hot_weather', '--hot-weather', '-HW')
 	.string('var_str', '---str', '--str', '-S', 'A')
 	.number('var_num', '---num', '--num', '-N', 'A')
 	.stringArray('var_str_ary', '--sary', '-SA')

@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const index_js_1 = __importDefault(require("../index.js"));
 console.log(index_js_1.default
     .bool('cool', '--cool', '-C')
+    .string('hot_weather', '--hot-weather', '-HW')
     .string('var_str', '---str', '--str', '-S', 'A')
     .number('var_num', '---num', '--num', '-N', 'A')
     .stringArray('var_str_ary', '--sary', '-SA')

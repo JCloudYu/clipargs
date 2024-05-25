@@ -1,6 +1,6 @@
 "use strict";
 const AliasFormat = /^((-|--)([0-9a-zA-Z_-]+))$/u;
-const OptionFormat = /^(-[^-=]+)$|^((--[^-=]+)(=.*)?)$/u;
+const OptionFormat = /^(-[^-].*)$|^((--[^-=][^=]*)(=.*)?)$/u;
 const _Captures = new WeakMap();
 ;
 ;
