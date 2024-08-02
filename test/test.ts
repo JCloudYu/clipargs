@@ -1,4 +1,13 @@
-import CMDArgs from "../index.js";
+import CMDArgs from "../index.js"; 
+
+
+type ArgType = {
+	cool:boolean;
+	var_str:string;
+	var_num:number;
+	var_str_ary:string[];
+	var_num_ary:number[];
+};
 
 console.log(
 	CMDArgs
@@ -8,5 +17,5 @@ console.log(
 	.number('var_num', '---num', '--num', '-N', 'A')
 	.stringArray('var_str_ary', '--sary', '-SA')
 	.numberArray('var_num_ary', '--nary', '-NA')
-	.parse<{cool:boolean, var_str:string, var_num:number; var_str_ary:string[]; var_num_ary:number[]}>(process.argv.slice(2))
+	.parse<ArgType>(process.argv.slice(2))
 );
